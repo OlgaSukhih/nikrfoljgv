@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Penguin Adventure</title>
+<style>
+        body {
+            background-color: #1e1e1e;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        #game-container {
+            position: relative;
+            width: 1000px;
+            height: 600px;
+            margin-top: 50px;
+            background-color: #2e2e2e;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .circle {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border: 3px solid cyan;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-weight: bold;
+            position: absolute;
+            cursor: pointer;
+            z-index: 2;
+        }
+        #start {
+            position: absolute;
+            left: 0;
+            top: 250px;
+            width: 100px;
+            z-index: 1;
+        }
+        #finish {
+            position: absolute;
+            right: 0;
+            top: 250px;
+            width: 100px;
+            z-index: 1;
+        }
+        #penguin {
+            position: absolute;
+            width: 60px;
+            transition: all 0.5s ease;
+            z-index: 3;
+        }
+        .card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #444;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+            z-index: 4;
+            text-align: center;
+            max-width: 90%;
+        }
+        .card img {
+            max-width: 300px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #aaa;
+        }
+    
+.circle.locked {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+@keyframes dance {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(-10px); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+.dance {
+    animation: dance 0.6s infinite;
+}
+</style>
+</head>
+<body>
+<div id="game-container">
+<img id="start" src="penguin_start.png"/>
+<img id="finish" src="lemur_finish.png"/>
+<img id="penguin" src="penguin_character.png" style="top: 300px; left: 100px; width: 60px; transition: all 0.5s ease; z-index: 3;"/>
+<!-- Circles -->
+<div class="circle" style="left: 100px; top: 350px;">1</div>
+<div class="circle locked" style="left: 188px; top: 447px;">2</div>
+<div class="circle locked" style="left: 277px; top: 500px;">3</div>
+<div class="circle locked" style="left: 366px; top: 481px;">4</div>
+<div class="circle locked" style="left: 455px; top: 402px;">5</div>
+<div class="circle locked" style="left: 544px; top: 297px;">6</div>
+<div class="circle locked" style="left: 633px; top: 218px;">7</div>
+<div class="circle locked" style="left: 722px; top: 200px;">8</div>
+<div class="circle locked" style="left: 811px; top: 252px;">9</div>
+<div class="circle locked" style="left: 900px; top: 350px;">10</div>
+<div id="cards-container">
+<div class="card" id="card0">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="10_Penguin_Early_Morning.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input0" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(0)">Check</button>
+<div class="feedback" id="feedback0" style="margin-top: 10px;"></div>
+</div>
+<div class="card" id="card1">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="09_Penguin_Has_Breakfast.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input1" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(1)">Check</button>
+<div class="feedback" id="feedback1" style="margin-top: 10px;"></div>
+</div>
+<div class="card" id="card2">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="08_Penguin_Reads_Newspaper.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input2" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(2)">Check</button>
+<div class="feedback" id="feedback2" style="margin-top: 10px;"></div>
+</div>
+<div class="card" id="card3">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="07_Penguin_on_Bus.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input3" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(3)">Check</button>
+<div class="feedback" id="feedback3" style="margin-top: 10px;"></div>
+</div>
+<div class="card" id="card4">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="06_Penguin_Grocery_Shopping.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input4" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(4)">Check</button>
+<div class="feedback" id="feedback4" style="margin-top: 10px;"></div>
+</div>
+<div class="card" id="card5">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="05_Penguin_Checks_Email.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input5" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(5)">Check</button>
+<div class="feedback" id="feedback5" style="margin-top: 10px;"></div>
+</div>
+<div class="card" id="card6">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="04_Penguin_with_Passport.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input6" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(6)">Check</button>
+<div class="feedback" id="feedback6" style="margin-top: 10px;"></div>
+</div>
+<div class="card" id="card7">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="03_Penguin_Returns_Home.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input7" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(7)">Check</button>
+<div class="feedback" id="feedback7" style="margin-top: 10px;"></div>
+</div>
+<div class="card" id="card8">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="02_Penguin_at_JFK_Airport.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input8" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(8)">Check</button>
+<div class="feedback" id="feedback8" style="margin-top: 10px;"></div>
+</div>
+<div class="card" id="card9">
+<div class="close-btn" onclick="this.parentElement.style.display='none'">×</div>
+<img src="01_Penguin_Hails_Taxi.png"/>
+<p>Type a sentence in Past Simple.</p>
+<input id="input9" placeholder="Your answer..." style="width: 90%; padding: 6px;" type="text"/>
+<button onclick="checkAnswer(9)">Check</button>
+<div class="feedback" id="feedback9" style="margin-top: 10px;"></div>
+</div>
+</div>
+</div>
+<script>
+      const penguin = document.getElementById('penguin');
+      const cardsContainer = document.getElementById('cards-container');
+
+      const steps = [
+        "10_Penguin_Early_Morning.png",
+        "09_Penguin_Has_Breakfast.png",
+        "08_Penguin_Reads_Newspaper.png",
+        "07_Penguin_on_Bus.png",
+        "06_Penguin_Grocery_Shopping.png",
+        "05_Penguin_Checks_Email.png",
+        "04_Penguin_with_Passport.png",
+        "03_Penguin_Returns_Home.png",
+        "02_Penguin_at_JFK_Airport.png",
+        "01_Penguin_Hails_Taxi.png"
+      ];
+
+      const positions = [
+        {top: 350, left: 100},
+        {top: 447, left: 188},
+        {top: 500, left: 277},
+        {top: 481, left: 366},
+        {top: 402, left: 455},
+        {top: 297, left: 544},
+        {top: 218, left: 633},
+        {top: 200, left: 722},
+        {top: 252, left: 811},
+        {top: 350, left: 900}
+      ];
+
+      document.querySelectorAll('.circle').forEach((circle, index) => {
+        circle.addEventListener('click', () => {
+          penguin.style.left = positions[index].left + 'px';
+          penguin.style.top = positions[index].top + 'px';
+          document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+          const card = document.getElementById('card' + index);
+          if (card) card.style.display = 'block';
+        });
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.id = 'card' + index;
+        card.innerHTML = `
+          <div class="close-btn" onclick="this.parentElement.style.display='none'">&times;</div>
+          <img src="${steps[index]}" />
+          <p>Type a sentence in Past Simple.</p>
+    <input type="text" id="input0" placeholder="Your answer..." style="width: 90%; padding: 6px;">
+    <button onclick="checkAnswer(1)">Check</button>
+    <div class="feedback" id="feedback2" style="margin-top: 10px;"></div>
+        `;
+        cardsContainer.appendChild(card);
+      });
+    
+      const answers = [
+        ["he got up", "he woke up"],
+        ["he had breakfast"],
+        ["he bought a newspaper"],
+        ["he took a bus"],
+        ["he went shopping"],
+        ["he checked his email"],
+        ["he found his passport"],
+        ["he returned home"],
+        ["he arrived at the airport"],
+        ["he took a taxi"]
+      ];
+
+      function checkAnswer(index) {
+        const userInput = document.getElementById("input" + index).value.trim().toLowerCase();
+        const feedback = document.getElementById("feedback" + index);
+        if (answers[index].includes(userInput)) {
+        if (index === 9) {
+            setTimeout(() => {
+                const penguin = document.getElementById("penguin");
+                penguin.style.left = "900px";
+                penguin.style.top = "250px";
+                penguin.classList.add("dance");
+            }, 500);
+        }
+
+          feedback.innerText = "✅ Correct!";
+          feedback.style.color = "lightgreen";
+        } else {
+          feedback.innerText = "❌ Try again!";
+          feedback.style.color = "red";
+        }
+      }
+
+
+function checkAnswer(index) {
+    const userInput = document.getElementById("input" + index).value.trim().toLowerCase();
+    const feedback = document.getElementById("feedback" + index);
+    if (answers[index].includes(userInput)) {
+        if (index === 9) {
+            setTimeout(() => {
+                const penguin = document.getElementById("penguin");
+                penguin.style.left = "900px";
+                penguin.style.top = "250px";
+                penguin.classList.add("dance");
+            }, 500);
+        }
+
+        feedback.innerText = "✅ Correct!";
+        feedback.style.color = "lightgreen";
+        // Разблокировать следующий кружок
+        const circles = document.querySelectorAll('.circle');
+        if (circles[index + 1]) {
+            circles[index + 1].classList.remove("locked");
+        }
+    } else {
+        feedback.innerText = "❌ Try again!";
+        feedback.style.color = "red";
+    }
+}
+</script>
+</body>
+</html>
